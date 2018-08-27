@@ -1,0 +1,44 @@
+{
+  "name": "test-ts-express-decorator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run tsc",
+    "coverage": "npm run test-cov && npm run test-remap",
+    "postinstall": "npm run build",
+    "tslint": "tslint ./*.ts ./lib/*.ts",
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "tsc": "tsc --project tsconfig.json",
+    "tsc:w": "tsc -w",
+    "start": "nodemon --watch '**/*.ts' --ignore 'node_modules/**/*' --exec ts-node src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tsed/common": "4.0.0",
+    "@tsed/core": "4.0.0",
+    "@tsed/swagger": "^4.30.1",
+    "@tsed/typeorm": "^4.30.1",
+    "@types/node": "^10.9.2",
+    "@types/swagger-schema-official": "^2.0.10",
+    "body-parser": "^1.15.2",
+    "class-validator": "^0.9.1",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-rate-limit": "^3.1.0",
+    "method-override": "^2.3.6",
+    "moment": "^2.22.2",
+    "pg": "^7.4.3",
+    "redis": "^2.8.0",
+    "reflect-metadata": "^0.1.12",
+    "typeorm": "^0.2.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.0.37",
+    "ts-node": "^3.3.0",
+    "nodemon": "^1.11.0",
+    "typescript": "^2.4.3"
+  }
+}

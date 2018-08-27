@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+       "target": "es2015",
+       "lib": ["es2015", "es6"],
+       "types": ["reflect-metadata", "node"],
+       "moduleResolution": "node",
+       "typeRoots": [ "./node_modules/@types" ],
+       "module": "commonjs",
+       "rootDir": "src",
+       "outDir": "./build",
+       "emitDecoratorMetadata": true,
+       "experimentalDecorators": true,
+       "sourceMap": true,
+       "declaration": false
+    },
+    "include": [
+       "src/**/*"
+    ],
+    "exclude": [
+       "node_modules"
+    ]
+ }
+ 
