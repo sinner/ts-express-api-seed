@@ -1,5 +1,5 @@
 {
-   "name": "default",
+   "name": "project",
    "type": "postgres",
    "host": "project-db-postgresql",
    "port": 5432,

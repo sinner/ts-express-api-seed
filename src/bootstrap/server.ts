@@ -4,6 +4,7 @@ import "reflect-metadata";
 import "@tsed/swagger";
 import "@tsed/typeorm";
 import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
+import { Connection } from 'typeorm';
 
 const rootDir = Path.resolve(__dirname+'/../..');
 const sslKeyFile = Fs.readFileSync(
@@ -12,12 +13,12 @@ const sslKeyFile = Fs.readFileSync(
 const sslCertFile = Fs.readFileSync(
     Path.resolve(process.cwd()+'/'+process.env.SSL_CERT)
 );
-const dbSettingsPath = `${rootDir}/ormconfig.json`;
 
 const sslPassPhrase = process.env.SSL_PASSPHRASE;
 const httpPort = process.env.HTTP_PORT;
 const httpsPort = process.env.HTTPS_PORT;
 
+const dbSettingsPath = `${rootDir}/ormconfig.json`;
 const databaseSettings = JSON.parse(Fs.readFileSync(dbSettingsPath, 'utf8'));
 
 console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${databaseSettings}`);
@@ -34,7 +35,7 @@ console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${database
         passphrase: sslPassPhrase
     },
     typeorm: {
-        db: databaseSettings
+        'db': databaseSettings
     },
     swagger: {
         path: "/api-docs"
@@ -52,7 +53,7 @@ console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${database
 })
 export class Server extends ServerLoader {
 
-    constructor(private processEnv: any) {
+    constructor(private processEnv: any, private connection: Connection) {
         super();
     }
 
@@ -73,7 +74,6 @@ export class Server extends ServerLoader {
             windowMs: 15*60*1000, // 15 minutes
             max: 100,
             delayAfter: 50, // begin slowing down responses after the first request / 0 = disabled
-            delayMs: 500, // slow down subsequent responses by 3 seconds per request / 0 = disabled
             message: "Too many requests, please try again later."
         });
 
