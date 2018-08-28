@@ -8,5 +8,5 @@ export interface UserSignUpInterface {
     salt?: string;
     activationCode?: string;
     roles?: string[];
-    isActive?: number;
+    isActive?: boolean;
 }

@@ -12,12 +12,12 @@ const sslKeyFile = Fs.readFileSync(
 const sslCertFile = Fs.readFileSync(
     Path.resolve(process.cwd()+'/'+process.env.SSL_CERT)
 );
-const dbSettingsPath = `${rootDir}/ormconfig.json`;
 
 const sslPassPhrase = process.env.SSL_PASSPHRASE;
 const httpPort = process.env.HTTP_PORT;
 const httpsPort = process.env.HTTPS_PORT;
 
+const dbSettingsPath = `${rootDir}/ormconfig.json`;
 const databaseSettings = JSON.parse(Fs.readFileSync(dbSettingsPath, 'utf8'));
 
 console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${databaseSettings}`);

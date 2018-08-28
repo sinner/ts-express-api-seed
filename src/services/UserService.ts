@@ -25,7 +25,7 @@ export class UserService {
 
     signupSimpleUser (userData: UserSignUpInterface): APIResponseInterface {
         userData.roles = ['ROLE_USER'];
-        userData.isActive = 0;
+        userData.isActive = false;
 
         this.result.data = {
             user: userData,
