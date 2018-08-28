@@ -1,7 +1,7 @@
 # App directories
 .env
 node_modules
-build
+build*
 .cache/*
 .idea/*
 
