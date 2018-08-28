@@ -9,7 +9,7 @@ import {Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max, MaxLength, M
  * User Entity
  */
 @Entity()
-export class User {
+export default class User {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -63,9 +63,32 @@ export class User {
     salt: string;
 
     @Column({
+        name: "first_name",
+        type: "varchar",
+        length: 150,
+        nullable: true
+    })
+    @MaxLength(150, {
+        message: "First name is too long"
+    })
+    firstName: string;
+
+    @Column({
+        name: "last_name",
+        type: "varchar",
+        length: 150,
+        nullable: true
+    })
+    @MaxLength(150, {
+        message: "Last name is too long"
+    })
+    lastName: string;
+
+    @Column({
         name: "display_name",
         type: "varchar",
-        length: 150
+        length: 150,
+        nullable: true
     })
     @MaxLength(150, {
         message: "Display name is too long"
@@ -81,37 +104,58 @@ export class User {
 
     @Column({
         name: "roles",
-        type: "json"
+        type: "simple-array"
     })
-    roles: string[];
+    roles: string[] = [];
 
-    @Column({
+    @Column()
+    @CreateDateColumn({
         name: "created_at",
         type: "timestamp"
     })
-    @CreateDateColumn()
     createdAt: Date;
 
-    @ManyToOne(type => User)
-    @JoinColumn({ name: "created_by_id" })
+    @ManyToOne(
+        type => User,
+        {
+            nullable: true
+        }
+    )
+    @JoinColumn({
+        name: "created_by_id"
+    })
     createdBy: User;
 
-    @Column({
+    @Column()
+    @UpdateDateColumn({
         name: "updated_at",
         type: "timestamp"
     })
-    @UpdateDateColumn()
     updatedAt: Date;
 
-    @ManyToOne(type => User)
-    @JoinColumn({ name: "updated_by_id" })
+    @ManyToOne(
+        type => User,
+        {
+            nullable: true
+        })
+    @JoinColumn({
+        name: "updated_by_id"
+    })
     updatedBy: User;
 
     @Column({
-        name: "is_active",
-        type: "boolean"
+        name: "is_email_confirmed",
+        type: "boolean",
+        default: false
     })
-    isActive: number;
+    isEmailConfirmed: boolean;
+
+    @Column({
+        name: "is_active",
+        type: "boolean",
+        default: true
+    })
+    isActive: boolean;
 
     /**
      *
@@ -122,9 +166,18 @@ export class User {
      * @param {string} displayName
      * @param {string} activationCode
      * @param {string[]} roles
-     * @param {number} isActive
+     * @param {boolean} isEmailConfirmed
+     * @param {boolean} isActive
      */
-    constructor(displayName?: string, email?: string, username?: string, password?: string, salt?: string, activationCode?: string, roles?: string[], isActive?: number) {
+    constructor(displayName?: string, 
+                email?: string, 
+                username?: string, 
+                password?: string, 
+                salt?: string, 
+                activationCode?: string, 
+                roles?: string[], 
+                isEmailConfirmed?: boolean, 
+                isActive?: boolean) {
         this.email = email;
         this.username = username;
         this.password = password;
@@ -132,7 +185,25 @@ export class User {
         this.displayName = displayName;
         this.activationCode = activationCode;
         this.roles = roles;
+        this.isEmailConfirmed = isEmailConfirmed;
         this.isActive = isActive;
+    }
+
+    addRole (role: string): User {
+        if(!this.roles) {
+            this.roles = [];
+        }
+        if(this.roles.indexOf(role) === -1) {
+            this.roles.push(role);
+        }
+        return this;
+    }
+
+    hasRole (role: string): boolean {
+        if(this.roles.indexOf(role) === -1 && role!=="ROLE_USER") {
+            return false;
+        }
+        return true;
     }
 
     @BeforeInsert()

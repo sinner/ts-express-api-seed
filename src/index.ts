@@ -4,7 +4,7 @@ import {getConnectionManager, createConnection, ConnectionManager, Connection} f
 import envVars from "./bootstrap/env";
 import {Server} from "./bootstrap/server";
 import {UserRepository} from "./entity/repository/UserRepository";
-import {User} from "./entity/User";
+import User from "./entity/User";
 
 const rootDir = Path.resolve(__dirname+'/..');
 const dbSettingsPath = `${rootDir}/ormconfig.json`;
