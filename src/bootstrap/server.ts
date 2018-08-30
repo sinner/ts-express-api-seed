@@ -3,8 +3,6 @@ import { Connection } from 'typeorm';
 import * as Fs from "fs";
 import * as Path from "path";
 import "reflect-metadata";
-import "@tsed/swagger";
-import "@tsed/typeorm";
 
 const rootDir = Path.resolve(__dirname+'/../..');
 const sourceDir = Path.resolve(__dirname+'/..');
@@ -19,11 +17,6 @@ const sslPassPhrase = process.env.SSL_PASSPHRASE;
 const httpPort = process.env.HTTP_PORT;
 const httpsPort = process.env.HTTPS_PORT;
 
-const dbSettingsPath = `${rootDir}/ormconfig.json`;
-const databaseSettings = JSON.parse(Fs.readFileSync(dbSettingsPath, 'utf8'));
-
-console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${databaseSettings}`);
-
 @ServerSettings({
     rootDir,
     acceptMimes: ["application/json"],
@@ -35,15 +28,9 @@ console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${database
         cert: sslCertFile,
         passphrase: sslPassPhrase
     },
-    typeorm: {
-        'db': databaseSettings
-    },
-    swagger: {
-        path: "/api-docs"
-    },
     mount: {
-        "/": `${sourceDir}/controllers/current/**/*.ts`,
-        "/v1": `${sourceDir}/controllers/v1/**/*.ts`
+        "/api/": `${sourceDir}/controllers/current/**/*.ts`,
+        "/api/v1": `${sourceDir}/controllers/v1/**/*.ts`
     },
     componentsScan: [
         `${sourceDir}/middlewares/**/*.ts`,

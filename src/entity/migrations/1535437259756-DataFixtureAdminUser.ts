@@ -5,8 +5,6 @@ import * as bcrypt from 'bcrypt';
 import * as Fs from "fs";
 import * as Path from "path";
 import "reflect-metadata";
-import "@tsed/swagger";
-import "@tsed/typeorm";
 import User from "../User";
 
 export class DataFixtureAdminUser1535437259756 implements MigrationInterface {

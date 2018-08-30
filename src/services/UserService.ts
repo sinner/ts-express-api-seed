@@ -1,10 +1,8 @@
 import {Service, AfterRoutesInit} from "@tsed/common";
-import {TypeORMService} from "@tsed/typeorm";
-import {Connection} from "typeorm";
+import {Connection, getCustomRepository, getConnection} from "typeorm";
 import {UserSignUpInterface} from "../interfaces/UserSignUpInterface";
 import {UserRepository} from "../entity/repository/UserRepository";
 import {APIResponseInterface} from "../interfaces/APIResponseInterface";
-import {getCustomRepository} from "typeorm";
 import User from "../entity/User";
 
 
@@ -16,7 +14,7 @@ export class UserService implements AfterRoutesInit {
     private result: APIResponseInterface;
     protected connection: Connection;
 
-    constructor (private typeORMService: TypeORMService) {
+    constructor () {
         this.userRepository = getCustomRepository(UserRepository);
         this.result = {
             status: 500,
@@ -29,7 +27,7 @@ export class UserService implements AfterRoutesInit {
     }
 
     $afterRoutesInit(): Promise<any> | void {
-        this.connection = this.typeORMService.get("db");
+        this.connection = getConnection();
     }
 
     signupSimpleUser (userData: UserSignUpInterface): APIResponseInterface {
