@@ -1,5 +1,5 @@
 import {EntityRepository, getManager, getRepository, Repository} from "typeorm";
-import {User} from "../User";
+import User from "../User";
 import {UserSignUpInterface} from "../../interfaces/UserSignUpInterface";
 import * as moment from "moment";
 import {validate, ValidationError} from "class-validator";
@@ -8,7 +8,7 @@ import {validate, ValidationError} from "class-validator";
 export class UserRepository extends Repository<User> {
 
     public findByName(displayName: string) {
-        return this.findOne({ displayName });
+        return this.findOne({ where: { displayName }});
     }
 
     public async getAllUsers (): Promise<User[]> {

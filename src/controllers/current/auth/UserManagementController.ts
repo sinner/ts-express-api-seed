@@ -41,7 +41,6 @@ export class UserManagementCtrl {
         let result: APIResponseInterface = this.userService.signupSimpleUser(userData);
         response.setHeader('status', result.status);
         return result;
-
     }
 
     @Get("/:id")
