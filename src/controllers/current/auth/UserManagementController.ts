@@ -1,7 +1,6 @@
 import {
-    Controller, Get, Render, Post,
-    Authenticated, Required, BodyParams,
-    Delete, Status, PathParams, Req, Res
+    Controller, Render, Authenticated, Required, BodyParams,
+    Status, PathParams, Get, Post, Put, Delete, Req, Res
 } from "@tsed/common";
 import * as Express from "express";
 import {Title, Description, Summary, Returns} from "@tsed/swagger";

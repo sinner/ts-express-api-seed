@@ -6,6 +6,7 @@ import "@tsed/typeorm";
 import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
 
 const rootDir = Path.resolve(__dirname+'/../..');
+const sourceDir = Path.resolve(__dirname+'/..');
 const sslKeyFile = Fs.readFileSync(
     Path.resolve(process.cwd()+'/'+process.env.SSL_KEY)
 );
@@ -40,13 +41,13 @@ console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${database
         path: "/api-docs"
     },
     mount: {
-        "/": `${rootDir}/controllers/current/**/*.ts`,
-        "/v1": `${rootDir}/controllers/v1/**/*.ts`
+        "/": `${sourceDir}/controllers/current/**/*.ts`,
+        "/v1": `${sourceDir}/controllers/v1/**/*.ts`
     },
     componentsScan: [
-        `${rootDir}/middlewares/**/*.ts`,
-        `${rootDir}/services/**/*.ts`,
-        `${rootDir}/converters/**/*.ts`
+        `${sourceDir}/middlewares/**/*.ts`,
+        `${sourceDir}/services/**/*.ts`,
+        `${sourceDir}/converters/**/*.ts`
     ],
     customServiceOptions: {}
 })
@@ -72,8 +73,6 @@ export class Server extends ServerLoader {
         let apiLimiter = new RateLimit({
             windowMs: 15*60*1000, // 15 minutes
             max: 100,
-            delayAfter: 50, // begin slowing down responses after the first request / 0 = disabled
-            delayMs: 500, // slow down subsequent responses by 3 seconds per request / 0 = disabled
             message: "Too many requests, please try again later."
         });
 

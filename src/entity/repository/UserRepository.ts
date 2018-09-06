@@ -1,5 +1,5 @@
 import {EntityRepository, getManager, getRepository, Repository} from "typeorm";
-import {User} from "../User";
+import User from "../User";
 import {UserSignUpInterface} from "../../interfaces/UserSignUpInterface";
 import * as moment from "moment";
 import {validate, ValidationError} from "class-validator";

@@ -3,7 +3,7 @@ import {UserSignUpInterface} from "../interfaces/UserSignUpInterface";
 import {UserRepository} from "../entity/repository/UserRepository";
 import {APIResponseInterface} from "../interfaces/APIResponseInterface";
 import {getCustomRepository} from "typeorm";
-import {User} from "../entity/User";
+import User from "../entity/User";
 
 @Service()
 export class UserService {

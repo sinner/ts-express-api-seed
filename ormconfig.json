@@ -1,7 +1,7 @@
 {
    "name": "default",
    "type": "postgres",
-   "host": "project-db-postgresql",
+   "host": "localhost",
    "port": 5432,
    "username": "project",
    "password": "project",
