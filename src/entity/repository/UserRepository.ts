@@ -8,7 +8,7 @@ import {validate, ValidationError} from "class-validator";
 export class UserRepository extends Repository<User> {
 
     public findByName(displayName: string) {
-        return this.findOne({ displayName });
+        return this.findOne({ where: { displayName }});
     }
 
     public async getAllUsers (): Promise<User[]> {

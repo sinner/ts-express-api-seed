@@ -1,15 +1,17 @@
-import {Service} from "@tsed/common";
+import {Service, AfterRoutesInit} from "@tsed/common";
+import {Connection, getCustomRepository, getConnection} from "typeorm";
 import {UserSignUpInterface} from "../interfaces/UserSignUpInterface";
 import {UserRepository} from "../entity/repository/UserRepository";
 import {APIResponseInterface} from "../interfaces/APIResponseInterface";
-import {getCustomRepository} from "typeorm";
 import User from "../entity/User";
 
+
 @Service()
-export class UserService {
+export class UserService implements AfterRoutesInit {
 
     private userRepository: UserRepository;
     private result: APIResponseInterface;
+    protected connection: Connection;
 
     constructor () {
         this.userRepository = getCustomRepository(UserRepository);
@@ -21,6 +23,10 @@ export class UserService {
             message: 'It has occurred an unexpected error during the process. Refresh the page a try it again.',
             data: null
         };
+    }
+
+    $afterRoutesInit(): Promise<any> | void {
+        this.connection = getConnection();
     }
 
     signupSimpleUser (userData: UserSignUpInterface): APIResponseInterface {

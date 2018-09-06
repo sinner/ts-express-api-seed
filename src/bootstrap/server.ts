@@ -1,9 +1,8 @@
+import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
+import { Connection } from 'typeorm';
 import * as Fs from "fs";
 import * as Path from "path";
 import "reflect-metadata";
-import "@tsed/swagger";
-import "@tsed/typeorm";
-import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
 
 const rootDir = Path.resolve(__dirname+'/../..');
 const sourceDir = Path.resolve(__dirname+'/..');
@@ -18,11 +17,6 @@ const sslPassPhrase = process.env.SSL_PASSPHRASE;
 const httpPort = process.env.HTTP_PORT;
 const httpsPort = process.env.HTTPS_PORT;
 
-const dbSettingsPath = `${rootDir}/ormconfig.json`;
-const databaseSettings = JSON.parse(Fs.readFileSync(dbSettingsPath, 'utf8'));
-
-console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${databaseSettings}`);
-
 @ServerSettings({
     rootDir,
     acceptMimes: ["application/json"],
@@ -34,15 +28,14 @@ console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${database
         cert: sslCertFile,
         passphrase: sslPassPhrase
     },
-    typeorm: {
-        db: databaseSettings
-    },
-    swagger: {
-        path: "/api-docs"
-    },
     mount: {
+<<<<<<< HEAD
         "/": `${sourceDir}/controllers/current/**/*.ts`,
         "/v1": `${sourceDir}/controllers/v1/**/*.ts`
+=======
+        "/api/": `${sourceDir}/controllers/current/**/*.ts`,
+        "/api/v1": `${sourceDir}/controllers/v1/**/*.ts`
+>>>>>>> 80b17ddcbf06c78b0efb720c1043d8f24d710231
     },
     componentsScan: [
         `${sourceDir}/middlewares/**/*.ts`,
@@ -53,7 +46,7 @@ console.log(`Reading DB settings from file from ${dbSettingsPath}: \n ${database
 })
 export class Server extends ServerLoader {
 
-    constructor(private processEnv: any) {
+    constructor(private processEnv: any, private connection: Connection) {
         super();
     }
 

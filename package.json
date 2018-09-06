@@ -18,8 +18,6 @@
   "dependencies": {
     "@tsed/common": "4.0.0",
     "@tsed/core": "4.0.0",
-    "@tsed/swagger": "^4.30.1",
-    "@tsed/typeorm": "^4.30.1",
     "@types/bcrypt": "^2.0.0",
     "@types/node": "^10.9.2",
     "@types/swagger-schema-official": "^2.0.10",
